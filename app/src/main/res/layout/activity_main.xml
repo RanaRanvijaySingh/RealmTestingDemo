@@ -1,36 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/buttonUpdate"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:text="update"
+        app:layout_constraintLeft_toRightOf="@+id/buttonDelete"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_editor_absoluteY="16dp"/>
 
-        <Button
-            android:id="@+id/clean_up"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Clear"/>
+    <Button
+        android:id="@+id/buttonDelete"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Delete"
+        app:layout_constraintLeft_toRightOf="@+id/buttonCreate"
+        app:layout_constraintRight_toLeftOf="@+id/buttonUpdate"
+        tools:layout_editor_absoluteY="16dp"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="Data"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
+    <Button
+        android:id="@+id/buttonCreate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Create"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/buttonDelete"
+        tools:layout_editor_absoluteY="16dp"/>
 
-        <LinearLayout
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingTop="10sp"
-            tools:context=".RealmIntroExample"/>
-    </LinearLayout>
-</ScrollView>
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline"
+        app:layout_constraintGuide_begin="16dp"
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteY="16dp"
+        tools:layout_editor_absoluteX="0dp"/>
+
+    <TextView
+        android:id="@+id/textViewData"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonDelete"/>
+
+</android.support.constraint.ConstraintLayout>

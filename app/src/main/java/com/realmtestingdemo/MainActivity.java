@@ -1,40 +1,44 @@
 package com.realmtestingdemo;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainView {
 
     public static final String TAG = MainActivity.class.getName();
-    private LinearLayout rootLayout = null;
 
-    private Realm realm;
+    @BindView(R.id.textViewData)
+    TextView mTextViewData;
+
+    //    private Realm realm;
+    private MainPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        rootLayout = ((LinearLayout) findViewById(R.id.container));
-        rootLayout.removeAllViews();
+        ButterKnife.bind(this);
+        mPresenter = new MainPresenter(this);
 
         // Open the default Realm for the UI thread.
-        realm = Realm.getDefaultInstance();
+//        realm = Realm.getDefaultInstance();
 
         // Clean up from previous run
-        cleanUp();
+//        cleanUp();
 
         // Small operation that is ok to run on the main thread
-        basicCRUD(realm);
+//        basicCRUD(realm);
 
         // More complex operations can be executed on another thread.
         AsyncTask<Void, Void, String> foo = new AsyncTask<Void, Void, String>() {
@@ -47,63 +51,37 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(String result) {
-                showStatus(result);
             }
         };
 
-        foo.execute();
-
-        findViewById(R.id.clean_up).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.setEnabled(false);
-                cleanUp();
-                v.setEnabled(true);
-            }
-        });
+//        foo.execute();
     }
 
-    private void cleanUp() {
-        // Delete all persons
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                realm.clear(Person.class);
-            }
-        });
+    @OnClick(R.id.buttonCreate)
+    public void onClickCreateButton(View view) {
+        mPresenter.createNewEntry();
+    }
+
+    @OnClick(R.id.buttonDelete)
+    public void onClickDeleteButton(View view) {
+        mPresenter.deleteLastEntry();
+    }
+
+    @OnClick(R.id.buttonUpdate)
+    public void onClickUpdateButton(View view) {
+        mPresenter.updateFirstEntry();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        realm.close(); // Remember to close Realm when done.
-    }
-
-    private void showStatus(String txt) {
-        Log.i(TAG, txt);
-        TextView tv = new TextView(this);
-        tv.setText(txt);
-        rootLayout.addView(tv);
+        mPresenter.closeRealm();
     }
 
     private void basicCRUD(Realm realm) {
-        showStatus("Perform basic Create/Read/Update/Delete (CRUD) operations...");
-
-        // All writes must be wrapped in a transaction to facilitate safe multi threading
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                // Add a person
-                Person person = realm.createObject(Person.class);
-                person.setId(1);
-                person.setName("John Young");
-                person.setAge(14);
-            }
-        });
 
         // Find the first person (no query conditions) and read a field
         final Person person = realm.where(Person.class).findFirst();
-        showStatus(person.getName() + ":" + person.getAge());
 
         // Update person in a transaction
         realm.executeTransaction(new Realm.Transaction() {
@@ -114,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        showStatus(person.getName() + " got older: " + person.getAge());
 
         // Add two more people
         realm.executeTransaction(new Realm.Transaction() {
@@ -129,12 +106,6 @@ public class MainActivity extends AppCompatActivity {
                 doug.setAge(42);
             }
         });
-
-        RealmResults<Person> people = realm.where(Person.class).findAll();
-        showStatus(String.format("Found %s people", people.size()));
-        for (Person p : people) {
-            showStatus("Found " + p.getName());
-        }
     }
 
     private String complexQuery() {
@@ -151,5 +122,15 @@ public class MainActivity extends AppCompatActivity {
 
         realm.close();
         return status;
+    }
+
+    @Override
+    public void showToast(final String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void setData(final String data) {
+        mTextViewData.setText(data);
     }
 }

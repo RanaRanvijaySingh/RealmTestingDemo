@@ -39,4 +39,7 @@ dependencies {
     testCompile 'org.powermock:powermock-module-junit4-rule:1.6.5'
     testCompile 'org.powermock:powermock-api-mockito:1.6.5'
     testCompile 'org.powermock:powermock-classloading-xstream:1.6.5'
+
+    compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }
