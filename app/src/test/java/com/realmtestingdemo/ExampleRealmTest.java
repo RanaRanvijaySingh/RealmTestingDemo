@@ -1,10 +1,5 @@
 package com.realmtestingdemo;
 
-/**
- * Created by on 08/05/17.
- * Purpose of this class is to
- */
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
