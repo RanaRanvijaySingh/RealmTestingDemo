@@ -42,11 +42,9 @@ public class ExampleRealmTest {
         mockStatic(RealmLog.class);
         mockStatic(Realm.class);
 
-        Realm mockRealm = PowerMockito.mock(Realm.class);
+        mockRealm = PowerMockito.mock(Realm.class);
 
         when(Realm.getDefaultInstance()).thenReturn(mockRealm);
-
-        this.mockRealm = mockRealm;
     }
 
     @Test
@@ -92,7 +90,6 @@ public class ExampleRealmTest {
         // verifying that `executeTransaction` was called only once will fail as Powermock
         // actually calls the method 3 times for some reason. I cannot determine why at this
         // point.
-
 
         // Verify that Realm#createObject was called only once
         verify(mockRealm, times(1)).createObject(Dog.class); // Verify that a Dog was in fact created.

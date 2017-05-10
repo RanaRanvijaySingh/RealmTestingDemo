@@ -31,7 +31,7 @@ class RealmHelper {
             @Override
             public void execute(final Realm realm) {
                 // Add a person
-                final Person realmPerson = realm.createObject(Person.class);
+                final Person realmPerson = realm.createObject(person.getClass());
                 realmPerson.setId(System.currentTimeMillis());
                 realmPerson.setName(person.getName());
                 realmPerson.setAge(person.getAge());
