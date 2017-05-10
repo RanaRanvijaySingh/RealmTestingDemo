@@ -1,13 +1,9 @@
 package com.realmtestingdemo;
 
-import android.content.ContentValues;
-
-import java.util.List;
-
 public class MainPresenter implements PersonRealmChangeListener {
     private final MainView mMainView;
     private final RealmHelper mRealmHelper;
-    private int mRealmId;
+    private int mRealmDataCount;
     private final PersonViewModel mPersonViewModel;
 
     public MainPresenter(final MainView mainView) {
@@ -22,10 +18,9 @@ public class MainPresenter implements PersonRealmChangeListener {
 
     private Person getNewPerson() {
         final Person person = new Person();
-        person.setId(mRealmId);
-        person.setName("Person" + mRealmId);
-        person.setAge(mRealmId * 10);
-        mRealmId++;
+        person.setName("Person" + mRealmDataCount);
+        person.setAge(mRealmDataCount * 10);
+        mRealmDataCount++;
         return person;
     }
 
@@ -34,7 +29,7 @@ public class MainPresenter implements PersonRealmChangeListener {
     }
 
     public void updateFirstEntry() {
-
+        mRealmHelper.update();
     }
 
     public void closeRealm() {
@@ -58,6 +53,11 @@ public class MainPresenter implements PersonRealmChangeListener {
 
     @Override
     public void onRemoveFirstPerson() {
+        presentData();
+    }
+
+    @Override
+    public void onUpdateFirstPerson() {
         presentData();
     }
 }

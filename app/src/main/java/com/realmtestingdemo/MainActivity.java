@@ -31,15 +31,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
         ButterKnife.bind(this);
         mPresenter = new MainPresenter(this);
 
-        // Open the default Realm for the UI thread.
-//        realm = Realm.getDefaultInstance();
-
-        // Clean up from previous run
-//        cleanUp();
-
-        // Small operation that is ok to run on the main thread
-//        basicCRUD(realm);
-
         // More complex operations can be executed on another thread.
         AsyncTask<Void, Void, String> foo = new AsyncTask<Void, Void, String>() {
             @Override

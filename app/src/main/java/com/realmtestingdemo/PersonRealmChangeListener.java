@@ -11,4 +11,6 @@ interface PersonRealmChangeListener {
     void onCleanUp();
 
     void onRemoveFirstPerson();
+
+    void onUpdateFirstPerson();
 }

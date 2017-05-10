@@ -8,6 +8,7 @@ package com.realmtestingdemo;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
+import io.realm.annotations.PrimaryKey;
 
 // Your model just have to extend RealmObject.
 // This will inherit an annotation which produces proxy getters and setters for all fields.
@@ -24,6 +25,7 @@ public class Person extends RealmObject {
     @Ignore
     private int tempReference;
 
+    @PrimaryKey
     private long id;
 
     // The standard getters and setters your IDE generates are fine.

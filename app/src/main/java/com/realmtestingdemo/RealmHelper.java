@@ -32,7 +32,7 @@ class RealmHelper {
             public void execute(final Realm realm) {
                 // Add a person
                 final Person realmPerson = realm.createObject(Person.class);
-                realmPerson.setId(person.getId());
+                realmPerson.setId(System.currentTimeMillis());
                 realmPerson.setName(person.getName());
                 realmPerson.setAge(person.getAge());
                 mRealmChangeListener.onPersonAdded(realmPerson);
@@ -54,6 +54,9 @@ class RealmHelper {
     }
 
     public void delete(final Person person) {
+        if (person == null) {
+            return;
+        }
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(final Realm realm) {
@@ -65,5 +68,19 @@ class RealmHelper {
 
     public Person getFirstPerson() {
         return mRealm.where(Person.class).findFirst();
+    }
+
+    public void update() {
+        mRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(final Realm realm) {
+                final Person person = getFirstPerson();
+                if (person != null) {
+                    person.setName("Update");
+                    realm.copyToRealmOrUpdate(person);
+                    mRealmChangeListener.onUpdateFirstPerson();
+                }
+            }
+        });
     }
 }
