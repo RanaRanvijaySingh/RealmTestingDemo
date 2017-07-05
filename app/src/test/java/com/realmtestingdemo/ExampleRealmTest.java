@@ -31,7 +31,6 @@ import static org.powermock.api.mockito.PowerMockito.when;
 @SuppressStaticInitializationFor("io.realm.internal.Util")
 @PrepareForTest({Realm.class, RealmLog.class})
 public class ExampleRealmTest {
-    // Robolectric, Using Power Mock https://github.com/robolectric/robolectric/wiki/Using-PowerMock
 
     @Rule
     public PowerMockRule rule = new PowerMockRule();
